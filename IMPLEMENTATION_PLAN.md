@@ -159,15 +159,33 @@ Kõik `scripts/` all, käivitatavad, tüübiviidetega, ilma liigsete kommentaari
 | `profile.py` | `analyses/<periood>` | kirjeldus, puhastatud csv, klappimise kontroll |
 | `aggregate.py` | puhastatud csv, valikuline `01_hinnad.json` | `02_agregatsioonid/` |
 | `outliers.py` | agregaadid | `03_outlierid.md` ja `.json` |
+| `brief.py` | erindid ja agregaadid | `work/05_koosolek/` |
+| `sketch.py` | agregaadid ja `01_sundmused.json` | `output/joonis.svg` |
+| `simulate.py` | — | `sample_data/sim_andmestik.xlsx` ja `sim_truth.md` |
 
 `profile.py` väljumiskood on 2, kui register ja kuukokkuvõte ei klapi. Skill ei lähe sellest edasi.
+
+## Teine faas
+
+Esimene sõnum jääb üheks sõnumiks. Koosolekul on selle taga lahtivõtt, mille teeb `scripts/brief.py` kausta `work/05_koosolek/`.
+
+- Ülekulu on lahutatud mahakandmiseks, ümbertegemiseks ja kliendileiuks.
+- Sama ülekulu on lahutatud mahuks, määraks ja seguks. Maht on suurem toodang vana määra ja vana tükihinnaga. Määr on kõrgem praakmäär vana tükihinnaga. Segu on see, et üks defektne tükk maksab teisiti kui baasis.
+- Iga kuu on eraldi. `kuude_vordlus.csv` nimetab kõige kallima kuu ja suurima hüppe. Kui need ei lange kokku, öeldakse mõlemad.
+- `muutumatu.csv` näitab fookustootel, milline defekt liikus ja milline jäi paigale.
+- `kliendileid_liinil.csv` mängib läbi, mis ülekulu oleks, kui sama defekt oleks avastatud liinil. Mahakandmine ja ümbertegemine jäävad, kliendijuhtumi lisakulu on 0. Eeldus on failis.
+- `baas.csv` kordab leid esimese kuu, kahe kuu ja kolme kuu baasil. Kui lõik jääb samaks, öeldakse seda. Kui vahetub, öeldakse ka seda.
+- `output/joonis.svg` on visand: määr kuude lõikes, juhendi sündmused kuude all, ülekulu toodete lõikes. Sündmused tulevad `work/01_sundmused.json` failist. Päris pildid tulevad kolmandas faasis.
+- Koosoleku küsimus ja vastus lisatakse `work/kusimused/kusimused.md` lõppu. Vastus tuleb ainult selle kausta tabelitest.
+
+Simuleeritud kontroll on `scripts/simulate.py`. See kirjutab `sample_data/sim_andmestik.xlsx` ja `sample_data/sim_truth.md`. Analüüsi `input/` alla läheb ainult xlsx. Tõefaili analüüsi ajal ei loeta. Pärast võrreldakse sõnumit tõefailiga.
 
 ## Mida esimeses versioonis ei tehta
 
 - Veebivaadet, andmebaasi ega ajastatud tööd.
 - Automaatset “miks” ilma hüpoteesita.
 - Mitut sõnumit ühe koosoleku jaoks.
-- Graafikuid. Tabelist piisab, kuni kasutaja tahab slaidi.
+- Automaatseid slaide. Teises faasis on üks svg-visand.
 - `requests` ja `bs4` jäävad `requirements.txt` sisse, aga analüüs neid ei kasuta.
 
 ## Vastuvõtutest

@@ -12,6 +12,7 @@ SUBDIRS = (
     "work/01_tabelid",
     "work/02_agregatsioonid",
     "work/kusimused",
+    "work/05_koosolek",
     "output",
 )
 

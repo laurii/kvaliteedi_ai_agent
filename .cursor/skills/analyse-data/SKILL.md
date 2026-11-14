@@ -10,7 +10,19 @@ Python käivitub ainult `.venv/bin/python`. Ära lisa teeke. Ära kirjuta skript
 
 ## Kui kasutaja küsib olemasoleva analüüsi kohta
 
-Kui `analyses/<periood>/work/03_outlierid.md` on olemas ja kasutaja ei palu analüüsi uuesti käivitada, ära jooksuta skripte uuesti. Vasta salvestatud failidest. Uus lõige salvesta `work/kusimused/` alla. Suusõnalist numbrit ära anna.
+Kui `analyses/<periood>/work/03_outlierid.md` on olemas ja kasutaja ei palu analüüsi uuesti käivitada, ära jooksuta skripte uuesti. Vasta ainult selle kausta tabelitest. Uus lõige salvesta `work/kusimused/` alla. Suusõnalist numbrit ära anna.
+
+Lisa sama vastus faili `work/kusimused/kusimused.md`. Iga küsimus jääb alles:
+
+```markdown
+## Küsimus
+...
+
+## Vastus
+...
+```
+
+Ära loe `sample_data/sim_truth.md`, kui analüüsid simuleeritud faili. Tõefail ei lähe `input/` alla.
 
 ## Käivitus
 
@@ -58,9 +70,24 @@ Veergude nimed võta profiilist, väärtused `Jah` / `Ei` ja kliendileiu väärt
 .venv/bin/python scripts/outliers.py <periood>
 ```
 
-6. Kirjuta kuni kolm hüpoteesi faili `work/04_hupoteesid.md`. Igal hüpoteesil on väide, mida andmed näitaksid kui see peab, mida need näitaksid kui see ei pea, tulemus (kinnitatud, tagasi lükatud või ei otsusta) ja viide tabelile. Uue lõike salvesta `work/kusimused/` csv-na. Konteksti sündmus, mis testis läbi kukub, jääb tagasi lükatuks.
+6. Kirjuta `work/01_sundmused.json` tekstilehe sündmustest. Iga rida on kuu ja lühike silt. Silt ei ole järeldus.
 
-7. Kirjuta `output/juhatuse_sonum.md` ja `output/vastuste_leht.md`.
+```json
+[{"kuu": "Märts", "tekst": "uus tarnija"}]
+```
+
+7. Käivita:
+
+```bash
+.venv/bin/python scripts/brief.py <periood>
+.venv/bin/python scripts/sketch.py <periood>
+```
+
+`work/05_koosolek/` on koosoleku lahtivõtt. `output/joonis.svg` on visand. Päris pildid tulevad kolmandas faasis.
+
+8. Kirjuta kuni kolm hüpoteesi faili `work/04_hupoteesid.md`. Igal hüpoteesil on väide, mida andmed näitaksid kui see peab, mida need näitaksid kui see ei pea, tulemus (kinnitatud, tagasi lükatud või ei otsusta) ja viide tabelile. Uue lõike salvesta `work/kusimused/` csv-na. Konteksti sündmus, mis testis läbi kukub, jääb tagasi lükatuks.
+
+9. Kirjuta `output/juhatuse_sonum.md` ja `output/vastuste_leht.md`. Vastuste leht viitab koosoleku failidele: ülekulu osad, maht või määr, kallim kuu ja suurim hüpe, mis ei muutunud, kliendileid kui see oleks jäänud liinile, ning kas leid jääb samaks teise baasiga.
 
 ## Juhatuse sõnum
 

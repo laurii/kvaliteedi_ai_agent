@@ -31,12 +31,14 @@ META = {
 
 
 def number(value: object) -> float | None:
+    """Tühi või NaN ei tohi jsonis muutuda määraks 0."""
     if value is None or (isinstance(value, float) and pd.isna(value)):
         return None
     return float(value)
 
 
 def produced_lookup(frame: pd.DataFrame, period_column: str, product_column: str) -> dict[tuple[str, str], float]:
+    """Defekti lõik kasutab toote toodangut, mitte enda ridade toodangut."""
     lookup: dict[tuple[str, str], float] = {}
     for record in frame.to_dict(orient="records"):
         lookup[(str(record[period_column]), str(record[product_column]))] = float(record["toodetud"])
@@ -51,6 +53,7 @@ def expand(
     produced: dict[tuple[str, str], float],
     measures: list[str],
 ) -> pd.DataFrame:
+    """Puuduv kuu on 0, muidu uus väärtus kaoks kuude reast."""
     current = rows.groupby(period_column, dropna=False)[measures].sum()
     current = current.reindex(index=periods, columns=measures).fillna(0.0)
     produced_values = [produced.get((period, product), 0.0) for period in periods]
@@ -58,6 +61,7 @@ def expand(
 
 
 def rate_of(frame: pd.DataFrame, periods: list[str]) -> float | None:
+    """Määr on tükid jagatud toodanguga. Nulltoodangul määra ei ole."""
     part = frame.loc[periods]
     produced = float(part["toodetud"].sum())
     if produced == 0:
@@ -66,6 +70,7 @@ def rate_of(frame: pd.DataFrame, periods: list[str]) -> float | None:
 
 
 def extra_of(frame: pd.DataFrame, baseline: list[str], after: list[str], column: str) -> tuple[float, float, float]:
+    """Ülekulu on baasijärgne summa miinus baasi kuutempo korda baasijärgsed kuud."""
     base = float(frame.loc[baseline, column].sum())
     after_sum = float(frame.loc[after, column].sum())
     per_month = base / len(baseline)
@@ -73,12 +78,14 @@ def extra_of(frame: pd.DataFrame, baseline: list[str], after: list[str], column:
 
 
 def rounded_gap(after_sum: float, per_month: float, months: int) -> tuple[int, int, int]:
+    """Juhatuse valem kasutab ümardatud osi, et lahutamine annaks sama numbri."""
     after_rounded = round(after_sum)
     month_rounded = round(per_month)
     return after_rounded - month_rounded * months, after_rounded, month_rounded
 
 
 def segment_pairs(frame: pd.DataFrame, product_column: str, extra_columns: list[str]):
+    """Üks lõik on toode, või toode ja üks kategooria väärtus."""
     keys = [product_column, *extra_columns]
     grouped = frame.groupby(keys, dropna=False)
     for key, rows in grouped:
@@ -99,6 +106,7 @@ def build_record(
     source: str,
     has_euro: bool,
 ) -> dict[str, Any]:
+    """Ühe lõigu määrad, tükid ja eurod kujul, mille sõnum kopeerib."""
     base_rate = rate_of(expanded, baseline)
     last_rate = rate_of(expanded, [last])
     piece_extra, _, _ = extra_of(expanded, baseline, after, "tukke")
@@ -141,6 +149,7 @@ def build_record(
 
 
 def carriers(record: dict[str, Any], children: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Kandja on väärtus, millel on suurem osa baasijärgsetest tükkidest."""
     product_values = record["vordlus"]
     after_pieces = float(record["parast_tukke"])
     if after_pieces <= 0:
@@ -178,6 +187,7 @@ def carriers(record: dict[str, Any], children: list[dict[str, Any]]) -> list[dic
 
 
 def material(items: list[dict[str, Any]], field: str, total: float) -> list[dict[str, Any]]:
+    """Pingerisse jääb viis esimest või lõik, mis on vähemalt viiendik toote tõusust."""
     ranked = sorted((item for item in items if float(item[field]) > 0), key=lambda item: float(item[field]), reverse=True)
     kept: list[dict[str, Any]] = []
     for index, item in enumerate(ranked, start=1):
@@ -190,10 +200,12 @@ def material(items: list[dict[str, Any]], field: str, total: float) -> list[dict
 
 
 def monthly_text(pieces: dict[str, int]) -> str:
+    """Kuude rida, mida saab sõnumis ette lugeda."""
     return ", ".join(f"{period} {count}" for period, count in pieces.items())
 
 
 def section(title: str, items: list[dict[str, Any]], money: bool) -> list[str]:
+    """Üks pingerida. Eurovalem on ainult eurode pingereas."""
     lines = [f"## {title}", ""]
     if not items:
         lines.extend(["Ühtegi lõiku ei tõusnud esile.", ""])
@@ -231,6 +243,7 @@ def section(title: str, items: list[dict[str, Any]], money: bool) -> list[str]:
 
 
 def render(result: dict[str, Any]) -> str:
+    """Markdown, mida agent loeb. Suur stabiilne maht ei ole leid."""
     baseline = ", ".join(result["baas"])
     lines = [
         "# Erindid",
@@ -263,6 +276,7 @@ def render(result: dict[str, Any]) -> str:
 
 
 def build(period: Path) -> int:
+    """Eraldab tõusu, stabiilse mahu ja uue väärtuse. Nullbaas ei lähe rahapingesse."""
     profile = read_json(period / "work" / "01_profiil.json")
     folder = period / "work" / "02_agregatsioonid"
     main_path = folder / "periood_toode.csv"
@@ -372,6 +386,7 @@ def build(period: Path) -> int:
 
 
 def main() -> None:
+    """Käsurea sisend on perioodi kausta nimi."""
     if len(sys.argv) != 2:
         print("Kasutus: outliers.py <periood>", file=sys.stderr)
         sys.exit(1)
