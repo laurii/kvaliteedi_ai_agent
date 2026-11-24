@@ -122,7 +122,13 @@ Skript on `scripts/sketch.py`. Ta loeb toodete agregaati ja `work/01_sundmused.j
 
 Väljund on `output/joonis.svg`. Vasakul on määr kuude lõikes, kuude all juhendi sündmused. Paremal on ülekulu toodete lõikes. Märked on sündmused, mitte järeldus.
 
-Päris pildid ei ole selles näites. Need jäävad kolmandasse faasi.
+## Etapp 8b. Koosoleku pildid
+
+Eesmärk on üks html-leht, mida ei pea käsitsi kokku panema.
+
+Skript on `scripts/charts.py`. ECharts on `vendor/echarts.min.js` ja kopeeritakse väljundkausta. Leht avaneb ilma võrguta.
+
+Väljund on `output/pildid.html`. Iga pilt loeb tabelit, mis eelmisest etapist juba on. Kui tabelit ei ole, seda pilti lehel ei ole. Pildi all on üks lause samast tabelist.
 
 ## Etapp 9. Hüpoteesid
 

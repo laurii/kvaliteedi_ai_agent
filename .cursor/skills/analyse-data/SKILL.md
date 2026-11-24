@@ -81,9 +81,10 @@ Veergude nimed võta profiilist, väärtused `Jah` / `Ei` ja kliendileiu väärt
 ```bash
 .venv/bin/python scripts/brief.py <periood>
 .venv/bin/python scripts/sketch.py <periood>
+.venv/bin/python scripts/charts.py <periood>
 ```
 
-`work/05_koosolek/` on koosoleku lahtivõtt. `output/joonis.svg` on visand. Päris pildid tulevad kolmandas faasis.
+`work/05_koosolek/` on koosoleku lahtivõtt. `output/joonis.svg` on visand. `output/pildid.html` on koosoleku leht, ECharts, avaneb ilma võrguta. Pilt tuleb tabelist. Kui tabelit ei ole, seda pilti lehel ei ole.
 
 8. Kirjuta kuni kolm hüpoteesi faili `work/04_hupoteesid.md`. Igal hüpoteesil on väide, mida andmed näitaksid kui see peab, mida need näitaksid kui see ei pea, tulemus (kinnitatud, tagasi lükatud või ei otsusta) ja viide tabelile. Uue lõike salvesta `work/kusimused/` csv-na. Konteksti sündmus, mis testis läbi kukub, jääb tagasi lükatuks.
 

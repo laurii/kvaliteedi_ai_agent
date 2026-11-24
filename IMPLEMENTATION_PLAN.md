@@ -161,6 +161,7 @@ Kõik `scripts/` all, käivitatavad, tüübiviidetega, ilma liigsete kommentaari
 | `outliers.py` | agregaadid | `03_outlierid.md` ja `.json` |
 | `brief.py` | erindid ja agregaadid | `work/05_koosolek/` |
 | `sketch.py` | agregaadid ja `01_sundmused.json` | `output/joonis.svg` |
+| `charts.py` | agregaadid, erindid, koosoleku tabelid | `output/pildid.html` |
 | `simulate.py` | — | `sample_data/sim_andmestik.xlsx` ja `sim_truth.md` |
 
 `profile.py` väljumiskood on 2, kui register ja kuukokkuvõte ei klapi. Skill ei lähe sellest edasi.
@@ -175,14 +176,26 @@ Esimene sõnum jääb üheks sõnumiks. Koosolekul on selle taga lahtivõtt, mil
 - `muutumatu.csv` näitab fookustootel, milline defekt liikus ja milline jäi paigale.
 - `kliendileid_liinil.csv` mängib läbi, mis ülekulu oleks, kui sama defekt oleks avastatud liinil. Mahakandmine ja ümbertegemine jäävad, kliendijuhtumi lisakulu on 0. Eeldus on failis.
 - `baas.csv` kordab leid esimese kuu, kahe kuu ja kolme kuu baasil. Kui lõik jääb samaks, öeldakse seda. Kui vahetub, öeldakse ka seda.
-- `output/joonis.svg` on visand: määr kuude lõikes, juhendi sündmused kuude all, ülekulu toodete lõikes. Sündmused tulevad `work/01_sundmused.json` failist. Päris pildid tulevad kolmandas faasis.
+- `output/joonis.svg` on visand: määr kuude lõikes, juhendi sündmused kuude all, ülekulu toodete lõikes. Sündmused tulevad `work/01_sundmused.json` failist. Koosoleku leht on `output/pildid.html`.
 - Koosoleku küsimus ja vastus lisatakse `work/kusimused/kusimused.md` lõppu. Vastus tuleb ainult selle kausta tabelitest.
 
 Simuleeritud kontroll on `scripts/simulate.py`. See kirjutab `sample_data/sim_andmestik.xlsx` ja `sample_data/sim_truth.md`. Analüüsi `input/` alla läheb ainult xlsx. Tõefaili analüüsi ajal ei loeta. Pärast võrreldakse sõnumit tõefailiga.
 
+## Kolmas faas
+
+`scripts/charts.py` kirjutab `output/pildid.html`. ECharts on failis `vendor/echarts.min.js` ja kopeeritakse väljundkausta, et leht avaneks ilma võrguta. Slaidi ei ole.
+
+Iga pilt loeb olemasolevat tabelit. Kui tabelit ei ole, seda pilti lehele ei panda. Pildi all on üks lause, mille number on samast tabelist.
+
+- Määr toodete lõikes ühel pildil, `periood_toode.csv`.
+- Ülekulu tulpadena toodete lõikes, samast failist, et tükid ja eurod ei oleks üks pilt.
+- Valitud leiu määr kuude lõikes, sündmuse kuud peal. Leid on eurode pingerea kitsam lõik. Kuud tulevad `kuud.csv`, sündmused `01_sundmused.json`.
+- Ülekulu jaotus ja kuude panus kõrvuti. Jaotus on `ulekulu_osad.csv`. Kuude panus ja kallim kuu versus hüpe on `kuud.csv` ja `kuude_vordlus.csv`.
+- Paigale jäänud ja tõusnud defektid kõrvuti, `muutumatu.csv`, valitud leiu kategooria.
+
 ## Mida esimeses versioonis ei tehta
 
-- Veebivaadet, andmebaasi ega ajastatud tööd.
+- Veebiserverit ega andmebaasi. Pildid on üks kohalik html-fail.
 - Automaatset “miks” ilma hüpoteesita.
 - Mitut sõnumit ühe koosoleku jaoks.
 - Automaatseid slaide. Teises faasis on üks svg-visand.

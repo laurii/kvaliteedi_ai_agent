@@ -40,7 +40,7 @@ Ava failid selles järjekorras. Number, mille ütled, on sõnumi number. Ära ar
 | 0–5 | `output/juhatuse_sonum.md` | Loe „Mis juhtus“ ja „Mis see maksab“ kõva häälega läbi. |
 | 5–10 | `work/03_outlierid.md` | Leia sama lõik. Valem on baasijärgne summa miinus baasi kuu korda baasijärgsete kuude arv. |
 | 10–20 | `work/05_koosolek/index.md` | Ülekulu osad, maht või määr, kallim kuu ja suurim hüpe, mis ei muutunud, liinil püütud kliendileid, kas leid jääb teise baasiga samaks. |
-| 20–25 | `output/joonis.svg` | Määr kuude lõikes ja ülekulu toodete lõikes. Märgid kuude all on juhendi sündmused. See on visand. |
+| 20–25 | `output/pildid.html` | Ava brauseris. Määr, ülekulu, valitud leid, jaotus ja mis jäi paigale. Iga pildi all on lause tabelist. Leht töötab ilma võrguta. |
 | 25–35 | `output/juhatuse_sonum.md` | Kirjuta „Mida juba teeme“ ja „Mida juhatuselt vajan“ oma sõnadega üle. Need on mustandid, sõna MUSTAND on ees. |
 | 35–45 | `output/vastuste_leht.md` | Viis tõenäolist küsimust. Iga numbri taga on fail. |
 
@@ -77,6 +77,7 @@ analyses/2026_11_16/
   work/kusimused/        järelküsimused
   output/juhatuse_sonum.md
   output/vastuste_leht.md
+  output/pildid.html
   output/joonis.svg
 ```
 
